@@ -14,12 +14,12 @@ in a shell this agent can run.
 2. Draft the split as a table: title · plan section · scope · done when · blocked by.
    One issue per unit of work.
 3. **Stop and show the table to the human.** Publish nothing until they approve it.
-4. Ask the human what every issue here must carry (fields, labels, wording), unless it is
-   already written down in this session or in the repo.
+4. Every issue carries what [Every issue carries](#every-issue-carries) says. Ask the human
+   only whether this plan needs more (fields, labels, wording).
 5. Create each issue in dependency order, so blocked-by can cite real numbers:
 
    ```sh
-   gh issue create --title "<title>" --body-file <tmp.md>
+   gh issue create --title "<title>" --body-file <tmp.md> --label "plan:<plan>"
    ```
 
 6. Record every issue URL from gh's output (not from memory) and reply with the list.
@@ -29,6 +29,30 @@ Closing one, with the closing comment from AGENTS.md:
 ```sh
 gh issue close <n> -c "<closing comment>"
 ```
+
+A done-when that needs someone else (a reviewer's look, an approval) holds only once they have
+done it. Until then the issue stays open and says what it waits on.
+
+## Every issue carries
+
+The human approved this shape on 2026-10-30 (plan morning-digest). The body opens with the source
+line, then three fields:
+
+```
+Source: plan.md § <n>
+
+Scope: <what this issue changes, from that section>
+Done when: <the plan's own done line; write one only where the plan has none>
+Blocked by: #<n>, or —
+```
+
+- `<n>` is the plan's section number as written, with its letter for a sub-section (`§ 2a`).
+- Label: `plan:<plan>`, the `plan:` value from plan.md's frontmatter (`plan:morning-digest`).
+  Create it once with `gh label create` if the repo lacks it.
+- Title: the unit of work in a few words, a route or file where it names one
+  (`Digest page: GET /digest/:night`).
+- A plan section may become two issues when part of it unblocks others (types before the
+  reader); both cite the same section. Say so when you show the split.
 
 ## No `gh`
 
